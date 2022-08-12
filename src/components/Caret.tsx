@@ -1,0 +1,17 @@
+import React from 'react'
+import { motion } from 'framer-motion'
+
+const Caret: React.FC = () => {
+  return (
+    <motion.div
+      aria-hidden={true}
+      className='inline-block bg-primary-500 w-0.5 h-7'
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 0 }}
+      exit={{ opacity: 1 }}
+      transition={{ repeat: Infinity, duration: 1, ease: 'easeInOut' }}
+    />
+  )
+}
+
+export default Caret

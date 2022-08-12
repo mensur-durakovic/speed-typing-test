@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+
+import Words from './components/Words'
+import Timer from './components/Timer'
+import RestartButton from './components/RestartButton'
+import Results from './components/Results'
+import UserTypings from './components/UserTypings'
+import WordsContainer from './components/WordsContainer'
+
+import useEngine from './hooks/useEngine'
+import { calculateAccuracyPercentage } from './utils'
 
 function App() {
+  const { state, words, timeLeft, typed, totalTyped, errors, restart, wpm, generateResultMessage } =
+    useEngine()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Timer timeLeft={timeLeft} />
+      <WordsContainer>
+        <Words words={words} />
+        <UserTypings className='absolute inset-0' userInput={typed} words={words} />
+      </WordsContainer>
+      <RestartButton className='mx-auto mt-10 text-slate-500' onRestart={restart} />
+      <Results
+        className='mt-10'
+        state={state}
+        errorsCount={errors}
+        totalCharactersTyped={totalTyped}
+        accuracyPercentage={calculateAccuracyPercentage(errors, totalTyped)}
+        wordsPerMinute={wpm}
+        resultMessage={generateResultMessage()}
+      />
+    </>
+  )
 }
 
-export default App;
+export default App
